@@ -1,0 +1,8 @@
+{
+  "name": "workflow-util",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:PackPlay/workflow-util.git",
+  "author": "Poon Wu <poon.wuthi@gmail.com>",
+  "license": "MIT"
+}

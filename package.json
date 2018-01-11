@@ -4,5 +4,8 @@
   "main": "index.js",
   "repository": "git@github.com:PackPlay/workflow-util.git",
   "author": "Poon Wu <poon.wuthi@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "download": "^6.2.5"
+  }
 }

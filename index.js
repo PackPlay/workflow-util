@@ -1,3 +1,6 @@
+const download = require('download');
+const path = require('path');
+
 class Util {
     static checkSWFEnv() {
         Util.hasEnv('SWF_DOMAIN');
@@ -16,6 +19,17 @@ class Util {
             throw new Error(`${name} not found`);
         }
         return true;
+    }
+
+    /**
+     * Get file
+     * @param {string} url 
+     * @param {string} destFolder
+     * @param {string} filename (optional)
+     * @returns {Promise<Buffer>}
+     */
+    static getFile(url, destFolder, filename) {
+        return download(url, destFolder, {filename: filename});
     }
 };
 

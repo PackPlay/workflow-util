@@ -1,5 +1,3 @@
-import { existsSync } from '../../.cache/typescript/2.6/node_modules/@types/graceful-fs';
-
 const download = require('download');
 const fs = require('fs');
 const path = require('path');

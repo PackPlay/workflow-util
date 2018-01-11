@@ -1,4 +1,7 @@
+import { existsSync } from '../../.cache/typescript/2.6/node_modules/@types/graceful-fs';
+
 const download = require('download');
+const fs = require('fs');
 const path = require('path');
 
 class Util {
@@ -29,7 +32,28 @@ class Util {
      * @returns {Promise<Buffer>}
      */
     static getFile(url, destFolder, filename) {
-        return download(url, destFolder, {filename: filename});
+        let name = filename || path.basename(url);
+        return download(url, destFolder, {filename: filename})
+            .then(buffer => path.join(destFolder, name));
+    }
+
+    static getFileOrCache(url, destFolder, filename) {
+        let p = new Promise((res, rej) => {
+            let name = filename || path.basename(url);
+            fs.exists(path.join(destFolder, name), (err, data) => {
+                if(err) {
+                    reject(err);
+                }
+                resolve(data); 
+            });
+        });
+
+        return p.then(exist => {
+            if(!exist) {
+                return Util.getFile(url, destFolder, filename);
+            }
+            return path.join(destFolder, name);
+        });
     }
 };
 

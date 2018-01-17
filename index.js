@@ -1,6 +1,9 @@
 const download = require('download');
 const fs = require('fs');
 const path = require('path');
+const {promisify} = require('util');
+
+const readFile = promisify(fs.readFile);
 
 class Util {
     static checkSWFEnv() {
@@ -20,6 +23,15 @@ class Util {
             throw new Error(`${name} not found`);
         }
         return true;
+    }
+
+    /**
+     * Read file and return promise
+     * @param {*string} filePath path/to/file
+     * @param {*Object} options fs.readFile option
+     */
+    static readFile(filePath, options) {
+        return readFile(filePath, options);
     }
 
     /**

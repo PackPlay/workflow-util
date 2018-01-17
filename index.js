@@ -53,6 +53,22 @@ class Util {
             return path.join(destFolder, name);
         });
     }
+
+    /**
+     * Put file to s3 and wrap into promise
+     * @param {*Object} s3 s3 instance from aws-sdk pack
+     * @param {*Object} params params for putObject
+     */
+    static putFile(s3, params) {
+        return new Promise((res, rej) => {
+            s3.putObject(params, (err, data) => {
+                if(err) {
+                    return rej(err);
+                }
+                return res(data);
+            });
+        });
+    }
 };
 
 module.exports = Util;

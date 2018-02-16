@@ -1,6 +1,7 @@
 const download = require('download');
 const fs = require('fs');
 const path = require('path');
+const md5 = require('md5-hash');
 const {promisify} = require('util');
 
 const readFile = promisify(fs.readFile);
@@ -13,6 +14,17 @@ class Util {
     static checkS3Env() {
         Util.hasEnv('S3_BUCKET');
         Util.hasEnv('S3_FOLDER');
+    }
+
+    static getTmpFolder() {
+        return process.env.TMP_FOLDER || '/tmp/';
+    }
+    static getTmpName(source, hash=false) {
+        let t = path.basename(source);
+        if(hash) {
+            t = md5(source) + path.extname(source);
+        }
+        return t;
     }
 
     static hasEnv(name) {
@@ -71,7 +83,15 @@ class Util {
      * @param {*Object} s3 s3 instance from aws-sdk pack
      * @param {*Object} params params for putObject
      */
-    static putFile(s3, params) {
+    static putFile(s3, outputName, data, params={}) {
+        params = _.extends({
+            ACL: 'public-read',
+            Body: data,
+            Bucket: process.env.S3_BUCKET,
+            Key: `${process.env.S3_FOLDER}/${outputName}`,
+            ContentType: 'application/octet-stream'
+        }, params);
+
         return new Promise((res, rej) => {
             s3.putObject(params, (err, data) => {
                 if(err) {

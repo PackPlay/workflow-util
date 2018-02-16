@@ -1,7 +1,7 @@
 const download = require('download');
 const fs = require('fs');
 const path = require('path');
-const md5 = require('md5-hash');
+const md5 = require('md5');
 const {promisify} = require('util');
 
 const readFile = promisify(fs.readFile);

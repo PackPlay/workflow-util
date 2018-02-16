@@ -7,6 +7,6 @@
   "license": "MIT",
   "dependencies": {
     "download": "^6.2.5",
-    "md5-hash": "^1.0.1"
+    "md5": "^2.2.1"
   }
 }

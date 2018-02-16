@@ -88,7 +88,7 @@ class Util {
      * @param {*Object} params params for putObject
      */
     static putFile(s3, outputName, data, params={}) {
-        params = _.extends({
+        params = _.extend({
             ACL: 'public-read',
             Body: data,
             Bucket: process.env.S3_BUCKET,

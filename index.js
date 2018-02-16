@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const download = require('download');
 const fs = require('fs');
 const path = require('path');

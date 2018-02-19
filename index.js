@@ -28,7 +28,7 @@ class Util {
         return t;
     }
     static getOutputUrl(outputName) {
-        return path.join(process.env.AWS_CLOUDFRONT, process.env.S3_FOLDER, outputName);
+        return path.join(process.env.AWS_CLOUDFRONT, outputName);
     }
 
     static hasEnv(name) {

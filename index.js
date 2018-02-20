@@ -3,6 +3,7 @@ const download = require('download');
 const fs = require('fs');
 const path = require('path');
 const md5 = require('md5');
+const urljoin = require('url-join');
 const {promisify} = require('util');
 
 const readFile = promisify(fs.readFile);
@@ -28,7 +29,7 @@ class Util {
         return t;
     }
     static getOutputUrl(outputName) {
-        return path.join(process.env.AWS_CLOUDFRONT, outputName);
+        return urljoin(process.env.AWS_CLOUDFRONT, outputName);
     }
 
     static hasEnv(name) {
@@ -62,7 +63,7 @@ class Util {
         let headers = {};
         if(process.env.AWS_ACCESS_KEY_ID) {
             headers = {
-                Authorization: `AWS ${process.env.AWS_ACCESS_KEY_ID}:${process.env.AWS_SECRET_ACCESS_KEY}`
+                "Authorization": `AWS ${process.env.AWS_ACCESS_KEY_ID}:${process.env.AWS_SECRET_ACCESS_KEY}`
             };
         }
         return download(url, destFolder, {filename, headers})

@@ -22,9 +22,9 @@ class Util {
         return process.env.TMP_FOLDER || '/tmp/';
     }
     static getTmpName(source, hash=false) {
-        let t = path.basename(source);
+        let t = path.posix.basename(source);
         if(hash) {
-            t = md5(source) + path.extname(source);
+            t = path.posix.basename(source, path.posix.extname(source)) + '-' + md5(source) + path.posix.extname(source);
         }
         return t;
     }
@@ -59,7 +59,7 @@ class Util {
      * @returns {Promise<Buffer>}
      */
     static getFile(url, destFolder, filename) {
-        let name = filename || path.basename(url);
+        let name = filename || path.posix.basename(url);
         let headers = {};
         if(process.env.AWS_ACCESS_KEY_ID) {
             headers = {
@@ -72,7 +72,7 @@ class Util {
 
     static getFileOrCache(url, destFolder, filename) {
         let p = new Promise((res, rej) => {
-            let name = filename || path.basename(url);
+            let name = filename || path.posix.basename(url);
             fs.exists(path.join(destFolder, name), (err, data) => {
                 if(err) {
                     reject(err);

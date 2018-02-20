@@ -59,7 +59,13 @@ class Util {
      */
     static getFile(url, destFolder, filename) {
         let name = filename || path.basename(url);
-        return download(url, destFolder, {filename: filename})
+        let headers = {};
+        if(process.env.AWS_ACCESS_KEY_ID) {
+            headers = {
+                Authorization: `AWS ${process.env.AWS_ACCESS_KEY_ID}:${process.env.AWS_SECRET_ACCESS_KEY}`
+            };
+        }
+        return download(url, destFolder, {filename, headers})
             .then(buffer => path.join(destFolder, name));
     }
 

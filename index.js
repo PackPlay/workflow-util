@@ -29,7 +29,7 @@ class Util {
         return t;
     }
     static getOutputUrl(outputName) {
-        return urljoin(process.env.S3_BUCKET, outputName);
+        return urljoin(process.env.S3_FOLDER, outputName);
     }
 
     static hasEnv(name) {

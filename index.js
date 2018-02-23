@@ -58,17 +58,35 @@ class Util {
      * @param {string} filename (optional)
      * @returns {Promise<Buffer>}
      */
-    static getFile(url, destFolder, filename) {
-        let name = filename || path.posix.basename(url);
-        let headers = {};
-        if(process.env.AWS_ACCESS_KEY_ID) {
-            headers = {
-                "Authorization": `AWS ${process.env.AWS_ACCESS_KEY_ID}:${process.env.AWS_SECRET_ACCESS_KEY}`
+    // static getFile(url, destFolder, filename) {
+    //     let name = filename || path.posix.basename(url);
+    //     let headers = {};
+    //     if(process.env.AWS_ACCESS_KEY_ID) {
+    //         headers = {
+    //             "Authorization": `AWS ${process.env.AWS_ACCESS_KEY_ID}:${process.env.AWS_SECRET_ACCESS_KEY}`
+    //         };
+    //     }
+    //     return download(url, destFolder, {filename, headers})
+    //         .then(buffer => path.join(destFolder, name));
+    // }
+
+    static getFile(s3, url, destFolder, filename) {
+        return new Promise((res, rej) => {
+            let writeTo = path.posix.join(destFolder, filename || path.posix.basename(url));
+            let writer = fs.createWriteStream(writeTo);
+            let params = {
+                Bucket: process.env.S3_BUCKET,
+                Key: url
             };
-        }
-        return download(url, destFolder, {filename, headers})
-            .then(buffer => path.join(destFolder, name));
+            let reader = s3.getObject(params).createWriteStream();
+            reader.pipe(writer);
+            reader.on("end", () => {
+                res(writeTo);
+            });
+            reader.on("error", rej);
+        });
     }
+
 
     static getFileOrCache(url, destFolder, filename) {
         let p = new Promise((res, rej) => {

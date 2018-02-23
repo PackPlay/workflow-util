@@ -78,7 +78,7 @@ class Util {
                 Bucket: process.env.S3_BUCKET,
                 Key: url
             };
-            let reader = s3.getObject(params).createWriteStream();
+            let reader = s3.getObject(params).createReadStream();
             reader.pipe(writer);
             reader.on("end", () => {
                 res(writeTo);

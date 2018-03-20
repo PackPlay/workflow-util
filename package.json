@@ -8,6 +8,8 @@
   "dependencies": {
     "download": "^6.2.5",
     "md5": "^2.2.1",
+    "shell-escape": "^0.2.0",
+    "shelljs": "^0.8.1",
     "url-join": "^4.0.0"
   }
 }

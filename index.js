@@ -5,6 +5,8 @@ const path = require('path');
 const md5 = require('md5');
 const urljoin = require('url-join');
 const {promisify} = require('util');
+const escape = require('shell-escape');
+const shell = require('shelljs');
 
 const readFile = promisify(fs.readFile);
 
@@ -127,6 +129,19 @@ class Util {
                     return rej(err);
                 }
                 return res(data);
+            });
+        });
+    }
+
+    // execute shell on node with array of args
+    static execute(args) {
+        return new Promise( (resolve, reject) => {
+            shell.exec(escape(args), {}, (code, stdout, stderr) => {
+                if(code === 0) {
+                    resolve(stdout);
+                } else {
+                    reject(stderr);
+                }
             });
         });
     }

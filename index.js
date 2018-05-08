@@ -23,10 +23,10 @@ class Util {
     static getTmpFolder() {
         return process.env.TMP_FOLDER || '/tmp/';
     }
-    static getTmpName(source, hash=false) {
+    static getTmpName(source, hash) {
         let t = path.posix.basename(source);
         if(hash) {
-            t = path.posix.basename(source, path.posix.extname(source)) + '-' + md5(source) + path.posix.extname(source);
+            t = path.posix.basename(source, path.posix.extname(source)) + '-' + md5(hash) + path.posix.extname(source);
         }
         return t;
     }

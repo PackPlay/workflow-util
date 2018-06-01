@@ -9,6 +9,7 @@ const escape = require('shell-escape');
 const shell = require('shelljs');
 
 const readFile = promisify(fs.readFile);
+const writeFile = promisify(fs.writeFile);
 
 class Util {
     static checkSWFEnv() {
@@ -51,6 +52,15 @@ class Util {
      */
     static readFile(filePath, options) {
         return readFile(filePath, options);
+    }
+
+    /**
+     * Write file and return promise
+     * @param {*string} filePath path/to/file
+     * @param {*Object} options fs.readFile option
+     */
+    static writeFile(filePath, content, options) {
+        return writeFile(filePath, content, options);
     }
 
     /**

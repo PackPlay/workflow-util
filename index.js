@@ -82,12 +82,21 @@ class Util {
     //         .then(buffer => path.join(destFolder, name));
     // }
 
-    static getFile(s3, url, destFolder, filename) {
+    static getFile(s3, url, destFolder, filename, ex) {
+        let bucket = process.env.S3_BUCKET;
+
+        // do shift
+        if(ex) {
+            bucket = url;
+            url = destFolder;
+            destFolder = filename;
+            filename = ex;
+        }
         return new Promise((res, rej) => {
             let writeTo = path.posix.join(destFolder, filename || path.posix.basename(url));
             let writer = fs.createWriteStream(writeTo);
             let params = {
-                Bucket: process.env.S3_BUCKET,
+                Bucket: bucket,
                 Key: url
             };
             let reader = s3.getObject(params).createReadStream();

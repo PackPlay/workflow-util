@@ -139,7 +139,6 @@ class Util {
             Body: data,
             Bucket: process.env.S3_BUCKET,
             Key: `${process.env.S3_FOLDER}/${outputName}`,
-            ContentType: 'application/octet-stream'
         }, params);
 
         return new Promise((res, rej) => {
